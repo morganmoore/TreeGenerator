@@ -1,0 +1,156 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module PydocTreeGen</title>
+<meta charset="utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>PydocTreeGen</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/s5113911/PythonProgramming/Project/PydocTreeGen.py">/home/s5113911/PythonProgramming/Project/PydocTreeGen.py</a></font></td></tr></table>
+    <p><tt>L-System&nbsp;Generator<br>
+&nbsp;<br>
+Implementation:<br>
+The&nbsp;purpose&nbsp;of&nbsp;this&nbsp;program&nbsp;is&nbsp;to&nbsp;create&nbsp;various&nbsp;trees&nbsp;that&nbsp;can&nbsp;be&nbsp;designed&nbsp;to&nbsp;the&nbsp;users&nbsp;specification.<br>
+Attributes&nbsp;such&nbsp;as&nbsp;colour,&nbsp;size,&nbsp;material,&nbsp;and&nbsp;shape&nbsp;will&nbsp;all&nbsp;be&nbsp;adjustable.<br>
+&nbsp;<br>
+The&nbsp;program&nbsp;begins&nbsp;by&nbsp;creating&nbsp;the&nbsp;user&nbsp;interface&nbsp;which&nbsp;contains&nbsp;several&nbsp;user&nbsp;controls.<br>
+Once&nbsp;the&nbsp;apply&nbsp;button&nbsp;is&nbsp;pressed&nbsp;the&nbsp;variables&nbsp;holding&nbsp;the&nbsp;values&nbsp;of&nbsp;the&nbsp;user&nbsp;controls&nbsp;are&nbsp;passed&nbsp;to&nbsp;the&nbsp;treegen&nbsp;function.<br>
+&nbsp;<br>
+In&nbsp;the&nbsp;treegen&nbsp;function&nbsp;the&nbsp;controls&nbsp;are&nbsp;queried&nbsp;using&nbsp;the&nbsp;passed&nbsp;variables&nbsp;and&nbsp;the&nbsp;user&nbsp;interface&nbsp;values&nbsp;are&nbsp;obtained.<br>
+These&nbsp;values&nbsp;can&nbsp;then&nbsp;either&nbsp;be&nbsp;directly&nbsp;passed&nbsp;into&nbsp;the&nbsp;creating&nbsp;functions&nbsp;iterate,&nbsp;createModel&nbsp;and&nbsp;setMaterial<br>
+or&nbsp;used&nbsp;to&nbsp;define&nbsp;variables&nbsp;such&nbsp;as&nbsp;the&nbsp;axiom,&nbsp;rules&nbsp;and&nbsp;material&nbsp;of&nbsp;the&nbsp;tree.<br>
+&nbsp;<br>
+The&nbsp;iterate&nbsp;function&nbsp;uses&nbsp;the&nbsp;basestring&nbsp;(from&nbsp;the&nbsp;chosen&nbsp;treetype/l-system),&nbsp;number&nbsp;of&nbsp;iterations,&nbsp;and&nbsp;the&nbsp;dictionary.<br>
+For&nbsp;each&nbsp;iteration&nbsp;the&nbsp;function&nbsp;replaces&nbsp;each&nbsp;symbol&nbsp;in&nbsp;the&nbsp;basestring&nbsp;with&nbsp;its&nbsp;corresponding&nbsp;value&nbsp;from&nbsp;the&nbsp;dictionary,<br>
+before&nbsp;then&nbsp;assigning&nbsp;the&nbsp;basestring&nbsp;with&nbsp;this&nbsp;newly&nbsp;created&nbsp;'replaced'&nbsp;string&nbsp;before&nbsp;the&nbsp;next&nbsp;iteration&nbsp;begins.<br>
+&nbsp;<br>
+The&nbsp;primary&nbsp;'creating'&nbsp;function&nbsp;is&nbsp;createModel&nbsp;which&nbsp;controls&nbsp;the&nbsp;building&nbsp;of&nbsp;the&nbsp;tree&nbsp;and&nbsp;leaves.<br>
+This&nbsp;function&nbsp;uses&nbsp;the&nbsp;finalstring&nbsp;generated&nbsp;in&nbsp;the&nbsp;iterate&nbsp;function&nbsp;along&nbsp;with&nbsp;other&nbsp;necessary&nbsp;variables&nbsp;such&nbsp;as&nbsp;length,&nbsp;turn,&nbsp;and&nbsp;leafsize.<br>
+A&nbsp;while&nbsp;loop&nbsp;in&nbsp;the&nbsp;createModel&nbsp;function&nbsp;iterates&nbsp;through&nbsp;the&nbsp;actionstring&nbsp;and&nbsp;checks&nbsp;each&nbsp;symbol&nbsp;against&nbsp;the&nbsp;if/elif&nbsp;cases&nbsp;until&nbsp;a&nbsp;matching&nbsp;case&nbsp;is&nbsp;found,&nbsp;which&nbsp;the&nbsp;program&nbsp;will&nbsp;then&nbsp;enter<br>
+within&nbsp;these&nbsp;if/elif&nbsp;cases&nbsp;the&nbsp;program&nbsp;calls&nbsp;a&nbsp;number&nbsp;of&nbsp;functions&nbsp;to&nbsp;assist&nbsp;with&nbsp;building&nbsp;the&nbsp;tree&nbsp;including&nbsp;createBranch,&nbsp;createVector,&nbsp;makeleaf&nbsp;and&nbsp;makeapple,&nbsp;and&nbsp;also&nbsp;sets&nbsp;new&nbsp;values&nbsp;for&nbsp;variables&nbsp;&nbsp;&nbsp;such&nbsp;as&nbsp;anleX,&nbsp;angleZ&nbsp;and&nbsp;level,<br>
+The&nbsp;cylinders(branches),&nbsp;leaves&nbsp;and&nbsp;apples&nbsp;that&nbsp;are&nbsp;created&nbsp;are&nbsp;then&nbsp;appended&nbsp;to&nbsp;a&nbsp;list&nbsp;which&nbsp;is&nbsp;then&nbsp;used&nbsp;to&nbsp;create&nbsp;groups&nbsp;for&nbsp;each&nbsp;object&nbsp;type&nbsp;that&nbsp;will&nbsp;show&nbsp;up&nbsp;in&nbsp;the&nbsp;outliner&nbsp;of&nbsp;the&nbsp;finished&nbsp;maya&nbsp;scene.<br>
+These&nbsp;groups&nbsp;are&nbsp;then&nbsp;returned&nbsp;to&nbsp;the&nbsp;treegen&nbsp;function&nbsp;where&nbsp;they&nbsp;are&nbsp;then&nbsp;passed&nbsp;(along&nbsp;with&nbsp;colour&nbsp;list,&nbsp;and&nbsp;the&nbsp;material&nbsp;types&nbsp;for&nbsp;the&nbsp;tree&nbsp;and&nbsp;leaves)&nbsp;to&nbsp;the&nbsp;set&nbsp;material&nbsp;function.<br>
+&nbsp;<br>
+In&nbsp;the&nbsp;set&nbsp;material&nbsp;function&nbsp;a&nbsp;set&nbsp;and&nbsp;shading&nbsp;node&nbsp;are&nbsp;created,&nbsp;the&nbsp;user&nbsp;specified&nbsp;colour&nbsp;is&nbsp;then&nbsp;attributed&nbsp;to&nbsp;the&nbsp;shading&nbsp;node&nbsp;and&nbsp;a&nbsp;shader&nbsp;list&nbsp;is&nbsp;created,&nbsp;the&nbsp;material&nbsp;is&nbsp;then&nbsp;assigned&nbsp;to&nbsp;the&nbsp;tree,<br>
+This&nbsp;'set&nbsp;material'&nbsp;process&nbsp;is&nbsp;repeated&nbsp;for&nbsp;the&nbsp;leaf&nbsp;with&nbsp;its&nbsp;corresponding&nbsp;colour&nbsp;and&nbsp;material&nbsp;attributes&nbsp;from&nbsp;the&nbsp;user,&nbsp;(assuming&nbsp;the&nbsp;leaves&nbsp;checkbox&nbsp;was&nbsp;on)<br>
+The&nbsp;objects&nbsp;have&nbsp;then&nbsp;been&nbsp;set&nbsp;their&nbsp;materials&nbsp;and&nbsp;two&nbsp;tuples&nbsp;(both&nbsp;of&nbsp;two&nbsp;strings)&nbsp;which&nbsp;contain&nbsp;the&nbsp;new&nbsp;shading&nbsp;group&nbsp;name,&nbsp;and&nbsp;the&nbsp;new&nbsp;shader&nbsp;name&nbsp;are&nbsp;returned&nbsp;to&nbsp;the&nbsp;caller<br>
+&nbsp;<br>
+Additional&nbsp;elements&nbsp;of&nbsp;the&nbsp;program&nbsp;include&nbsp;the&nbsp;save&nbsp;undo&nbsp;and&nbsp;cancel&nbsp;tools:<br>
+The&nbsp;undo&nbsp;tool&nbsp;loads&nbsp;the&nbsp;maya&nbsp;file&nbsp;from&nbsp;the&nbsp;previous&nbsp;tree&nbsp;generation<br>
+the&nbsp;save&nbsp;tool&nbsp;creates&nbsp;a&nbsp;window&nbsp;where&nbsp;the&nbsp;user&nbsp;can&nbsp;specify&nbsp;how&nbsp;to&nbsp;save&nbsp;their&nbsp;tree&nbsp;and&nbsp;then&nbsp;save&nbsp;it<br>
+the&nbsp;cancel&nbsp;tool&nbsp;calls&nbsp;a&nbsp;the&nbsp;cancelCallback&nbsp;function&nbsp;which&nbsp;closes&nbsp;the&nbsp;main&nbsp;window</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-addRule"><strong>addRule</strong></a>(ruleDict, replaceStr, newStr)</dt><dd><tt>add&nbsp;a&nbsp;new&nbsp;rule&nbsp;to&nbsp;the&nbsp;ruleDict<br>
+&nbsp;<br>
+ruleDict&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;dictionary&nbsp;holding&nbsp;the&nbsp;rules<br>
+replaceStr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;old&nbsp;character&nbsp;to&nbsp;be&nbsp;replaced<br>
+newStr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;new&nbsp;string&nbsp;replacing&nbsp;the&nbsp;old&nbsp;one</tt></dd></dl>
+ <dl><dt><a name="-calculateVector"><strong>calculateVector</strong></a>(length, angleZ, angleX)</dt><dd><tt>calculate&nbsp;the&nbsp;vector&nbsp;from&nbsp;the&nbsp;start&nbsp;point&nbsp;to&nbsp;the&nbsp;end&nbsp;point&nbsp;for&nbsp;each&nbsp;branch<br>
+&nbsp;<br>
+length&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;step&nbsp;size&nbsp;for&nbsp;growing<br>
+rotation&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;rotation&nbsp;angle&nbsp;for&nbsp;branching<br>
+return&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;return&nbsp;the&nbsp;vector&nbsp;from&nbsp;start&nbsp;point&nbsp;to&nbsp;end&nbsp;point</tt></dd></dl>
+ <dl><dt><a name="-cancelCallback"><strong>cancelCallback</strong></a>(windowID, *pArgs)</dt><dd><tt>function&nbsp;to&nbsp;close&nbsp;UI&nbsp;window<br>
+&nbsp;<br>
+windowID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;The&nbsp;identification&nbsp;name&nbsp;of&nbsp;the&nbsp;window</tt></dd></dl>
+ <dl><dt><a name="-createBranch"><strong>createBranch</strong></a>(startPoint, length, angleZ, angleX, level)</dt><dd><tt>create&nbsp;a&nbsp;cylinder&nbsp;for&nbsp;each&nbsp;branch<br>
+&nbsp;<br>
+startPoint&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;startPoint,&nbsp;base&nbsp;point&nbsp;for&nbsp;the&nbsp;new&nbsp;cylinder<br>
+length&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;step&nbsp;size&nbsp;for&nbsp;growing<br>
+angleZ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;'Z'&nbsp;rotation&nbsp;angle&nbsp;for&nbsp;branching,&nbsp;used&nbsp;for&nbsp;calculating&nbsp;the&nbsp;axis&nbsp;of&nbsp;the&nbsp;cylinder<br>
+angleX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;'X'&nbsp;rotation&nbsp;angle&nbsp;for&nbsp;branching,&nbsp;used&nbsp;for&nbsp;calculating&nbsp;the&nbsp;axis&nbsp;of&nbsp;the&nbsp;cylinder<br>
+level&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;number&nbsp;of&nbsp;times&nbsp;the&nbsp;current&nbsp;cyclinder&nbsp;has&nbsp;'branched&nbsp;off'&nbsp;from&nbsp;the&nbsp;start&nbsp;of&nbsp;the&nbsp;building&nbsp;phase<br>
+return&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;return&nbsp;the&nbsp;created&nbsp;object</tt></dd></dl>
+ <dl><dt><a name="-createModel"><strong>createModel</strong></a>(actionString, length, turn, leafscale, leaf, apple, progress)</dt><dd><tt>create&nbsp;the&nbsp;3D&nbsp;model&nbsp;based&nbsp;on&nbsp;the&nbsp;actionString,&nbsp;following&nbsp;the&nbsp;characters&nbsp;in&nbsp;the&nbsp;string,&nbsp;<br>
+one&nbsp;by&nbsp;one,&nbsp;grow&nbsp;the&nbsp;branches,&nbsp;and&nbsp;finally&nbsp;group&nbsp;all&nbsp;branches&nbsp;together&nbsp;into&nbsp;one&nbsp;group<br>
+&nbsp;<br>
+&nbsp;&nbsp;actionString&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;instructions&nbsp;on&nbsp;how&nbsp;to&nbsp;construct&nbsp;the&nbsp;model<br>
+&nbsp;&nbsp;length&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;step&nbsp;size&nbsp;for&nbsp;growing<br>
+&nbsp;&nbsp;turn&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;rotation&nbsp;angle&nbsp;for&nbsp;branching<br>
+&nbsp;&nbsp;leafscale&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;a&nbsp;user&nbsp;selected&nbsp;leaf&nbsp;scaling&nbsp;factor&nbsp;<br>
+&nbsp;&nbsp;leaf&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;a&nbsp;boolean&nbsp;variable&nbsp;set&nbsp;to&nbsp;true&nbsp;when&nbsp;the&nbsp;leaf&nbsp;checkbox&nbsp;is&nbsp;on&nbsp;and&nbsp;false&nbsp;when&nbsp;its&nbsp;off<br>
+&nbsp;&nbsp;apple&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;a&nbsp;boolean&nbsp;variable&nbsp;set&nbsp;to&nbsp;true&nbsp;when&nbsp;the&nbsp;apple&nbsp;checkbox&nbsp;is&nbsp;on&nbsp;and&nbsp;false&nbsp;when&nbsp;its&nbsp;off<br>
+&nbsp;&nbsp;progress&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;path&nbsp;name&nbsp;to&nbsp;the&nbsp;progress&nbsp;bar&nbsp;control&nbsp;to&nbsp;allow&nbsp;for&nbsp;editing<br>
+&nbsp;&nbsp;return&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;return&nbsp;the&nbsp;group&nbsp;of&nbsp;all&nbsp;the&nbsp;branches,&nbsp;and&nbsp;the&nbsp;leaves&nbsp;and&nbsp;apples&nbsp;(assuming&nbsp;apples&nbsp;and&nbsp;leaves&nbsp;have&nbsp;been&nbsp;selected&nbsp;by&nbsp;the&nbsp;user)</tt></dd></dl>
+ <dl><dt><a name="-createUI"><strong>createUI</strong></a>(windowname, pApplyCallback)</dt><dd><tt>Creates&nbsp;the&nbsp;user&nbsp;interface&nbsp;which&nbsp;will&nbsp;recieve&nbsp;various&nbsp;inputs&nbsp;from&nbsp;the&nbsp;user&nbsp;which&nbsp;will&nbsp;later&nbsp;be&nbsp;used&nbsp;to&nbsp;build&nbsp;the&nbsp;tree&nbsp;in&nbsp;the&nbsp;treegen&nbsp;function.<br>
+The&nbsp;user&nbsp;can&nbsp;pick&nbsp;the&nbsp;treetype,&nbsp;the&nbsp;colour&nbsp;of&nbsp;the&nbsp;tree&nbsp;and&nbsp;leaves,&nbsp;the&nbsp;material,&nbsp;the&nbsp;length,&nbsp;the&nbsp;starting&nbsp;angle,&nbsp;the&nbsp;number&nbsp;of&nbsp;iterations,&nbsp;whether&nbsp;they&nbsp;want&nbsp;leaves&nbsp;and&nbsp;apples,&nbsp;<br>
+the&nbsp;type&nbsp;of&nbsp;leaf,&nbsp;the&nbsp;size&nbsp;of&nbsp;the&nbsp;leaf,&nbsp;and&nbsp;the&nbsp;thickness&nbsp;of&nbsp;the&nbsp;leaves.<br>
+There&nbsp;are&nbsp;also&nbsp;4&nbsp;buttons,<br>
+Apply&nbsp;will&nbsp;pass&nbsp;the&nbsp;control&nbsp;path&nbsp;names<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;windowname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;name&nbsp;that&nbsp;will&nbsp;be&nbsp;displayed&nbsp;on&nbsp;the&nbsp;GUI<br>
+&nbsp;&nbsp;&nbsp;pApplyCallback&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;function&nbsp;that&nbsp;the&nbsp;inputs&nbsp;will&nbsp;be&nbsp;passed&nbsp;to&nbsp;when&nbsp;the&nbsp;user&nbsp;clicks&nbsp;apply</tt></dd></dl>
+ <dl><dt><a name="-iterate"><strong>iterate</strong></a>(baseString, numIterations, ruleDict)</dt><dd><tt>following&nbsp;the&nbsp;rules,&nbsp;replace&nbsp;old&nbsp;characters&nbsp;with&nbsp;new&nbsp;ones<br>
+&nbsp;<br>
+baseString&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;start&nbsp;string<br>
+numIterations&nbsp;&nbsp;&nbsp;:&nbsp;how&nbsp;many&nbsp;times&nbsp;the&nbsp;rules&nbsp;will&nbsp;be&nbsp;used<br>
+ruleDict&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;dictionary&nbsp;holding&nbsp;the&nbsp;rules<br>
+return&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;return&nbsp;the&nbsp;final&nbsp;expanded&nbsp;string</tt></dd></dl>
+ <dl><dt><a name="-makeApple"><strong>makeApple</strong></a>(Point)</dt><dd><tt>calculate&nbsp;the&nbsp;vector&nbsp;from&nbsp;the&nbsp;start&nbsp;point&nbsp;to&nbsp;the&nbsp;end&nbsp;point&nbsp;for&nbsp;each&nbsp;branch<br>
+&nbsp;<br>
+Point&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;current&nbsp;point&nbsp;in&nbsp;the&nbsp;tree&nbsp;generation<br>
+return&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;return&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;created&nbsp;apple</tt></dd></dl>
+ <dl><dt><a name="-makeLeaf"><strong>makeLeaf</strong></a>(temp, Point)</dt><dd><tt>calculate&nbsp;the&nbsp;vector&nbsp;from&nbsp;the&nbsp;start&nbsp;point&nbsp;to&nbsp;the&nbsp;end&nbsp;point&nbsp;for&nbsp;each&nbsp;branch<br>
+&nbsp;<br>
+temp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;product&nbsp;of&nbsp;a&nbsp;random&nbsp;variable&nbsp;rls&nbsp;and&nbsp;the&nbsp;leafscale&nbsp;variable<br>
+Point&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;current&nbsp;point&nbsp;in&nbsp;the&nbsp;tree&nbsp;generation<br>
+return&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;return&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;created&nbsp;leaf</tt></dd></dl>
+ <dl><dt><a name="-materialtype"><strong>materialtype</strong></a>(cv)</dt><dd><tt>creates&nbsp;the&nbsp;material&nbsp;corresponding&nbsp;to&nbsp;the&nbsp;user&nbsp;selected&nbsp;axiom&nbsp;and&nbsp;adds&nbsp;the&nbsp;rules&nbsp;of&nbsp;that&nbsp;axiom&nbsp;'<br>
+&nbsp;<br>
+cv&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;holds&nbsp;the&nbsp;value&nbsp;of&nbsp;the&nbsp;material&nbsp;control<br>
+return&nbsp;:&nbsp;the&nbsp;string&nbsp;of&nbsp;the&nbsp;selected&nbsp;material</tt></dd></dl>
+ <dl><dt><a name="-previous"><strong>previous</strong></a>(*pArgs)</dt><dd><tt>opens&nbsp;the&nbsp;'previous'&nbsp;file&nbsp;that&nbsp;was&nbsp;saved&nbsp;before&nbsp;the&nbsp;scene&nbsp;was&nbsp;deleted&nbsp;for&nbsp;the&nbsp;current&nbsp;generation,&nbsp;this&nbsp;acts&nbsp;as&nbsp;a&nbsp;simple&nbsp;undo&nbsp;function</tt></dd></dl>
+ <dl><dt><a name="-save"><strong>save</strong></a>(pfileformat, pfilename, *pArgs)</dt><dd><tt>saves&nbsp;the&nbsp;current&nbsp;file&nbsp;with&nbsp;gthe&nbsp;given&nbsp;format&nbsp;and&nbsp;name<br>
+&nbsp;<br>
+pfileformat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;user&nbsp;specified&nbsp;file&nbsp;format&nbsp;from&nbsp;savemenu&nbsp;GUI<br>
+pfilename&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;user&nbsp;specified&nbsp;filename&nbsp;from&nbsp;savemenu&nbsp;GUI</tt></dd></dl>
+ <dl><dt><a name="-savemenu"><strong>savemenu</strong></a>(*pArgs)</dt><dd><tt>creates&nbsp;a&nbsp;window&nbsp;for&nbsp;the&nbsp;user&nbsp;to&nbsp;enter&nbsp;a&nbsp;name&nbsp;and&nbsp;select&nbsp;the&nbsp;format&nbsp;of&nbsp;their&nbsp;generated&nbsp;tree</tt></dd></dl>
+ <dl><dt><a name="-setMaterial"><strong>setMaterial</strong></a>(objName, objNameL, materialType, materialTypeL, treecolour, leavescolour, progress)</dt><dd><tt>Assigns&nbsp;a&nbsp;material&nbsp;to&nbsp;the&nbsp;object&nbsp;'objectName'<br>
+&nbsp;<br>
+objName&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;group&nbsp;of&nbsp;cylinders&nbsp;making&nbsp;up&nbsp;the&nbsp;trunk&nbsp;and&nbsp;branches&nbsp;of&nbsp;the&nbsp;tree<br>
+objNameL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;group&nbsp;of&nbsp;leave&nbsp;objects<br>
+materialType&nbsp;:&nbsp;is&nbsp;string&nbsp;that&nbsp;specifies&nbsp;the&nbsp;type&nbsp;of&nbsp;the&nbsp;sufrace&nbsp;shader&nbsp;of&nbsp;the&nbsp;tree(leaves&nbsp;and&nbsp;cyclinders),&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this&nbsp;can&nbsp;be&nbsp;any&nbsp;of&nbsp;Maya's&nbsp;valid&nbsp;surface&nbsp;shaders&nbsp;such&nbsp;as:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lambert,&nbsp;blin,&nbsp;phong,&nbsp;etc.<br>
+treecolour&nbsp;&nbsp;&nbsp;:&nbsp;is&nbsp;a&nbsp;list&nbsp;of&nbsp;(R,G,B)&nbsp;values&nbsp;within&nbsp;the&nbsp;range&nbsp;[0,1]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which&nbsp;specify&nbsp;the&nbsp;colour&nbsp;of&nbsp;the&nbsp;cyclinders<br>
+leavescolour&nbsp;:&nbsp;is&nbsp;a&nbsp;list&nbsp;of&nbsp;(R,G,B)&nbsp;values&nbsp;within&nbsp;the&nbsp;range&nbsp;[0,1]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which&nbsp;specify&nbsp;the&nbsp;colour&nbsp;of&nbsp;the&nbsp;leaves<br>
+progress&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;path&nbsp;name&nbsp;to&nbsp;the&nbsp;progress&nbsp;bar&nbsp;control&nbsp;to&nbsp;allow&nbsp;for&nbsp;editing<br>
+On&nbsp;Exit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;'objName'&nbsp;and&nbsp;'objNameL'&nbsp;have&nbsp;been&nbsp;assigned&nbsp;a&nbsp;new&nbsp;material&nbsp;according&nbsp;to&nbsp;the&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;input&nbsp;values&nbsp;of&nbsp;the&nbsp;procedure,&nbsp;and&nbsp;two&nbsp;tuples&nbsp;(both&nbsp;of&nbsp;two&nbsp;strings)&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which&nbsp;contain&nbsp;the&nbsp;new&nbsp;shading&nbsp;group&nbsp;name,&nbsp;and&nbsp;the&nbsp;new&nbsp;shader<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;are&nbsp;returned&nbsp;to&nbsp;the&nbsp;caller</tt></dd></dl>
+ <dl><dt><a name="-toggleRadio"><strong>toggleRadio</strong></a>(leaves, *pArgs)</dt><dd><tt>set&nbsp;leaftype&nbsp;radiogroup&nbsp;to&nbsp;the&nbsp;exact&nbsp;opposite&nbsp;state<br>
+&nbsp;<br>
+leaves&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;The&nbsp;path&nbsp;name&nbsp;to&nbsp;the&nbsp;leaves&nbsp;control</tt></dd></dl>
+ <dl><dt><a name="-treegen"><strong>treegen</strong></a>(plength, piterations, ptreetype, pmaterialtype, prgbs, pleafscale, pleavesamount, prgbleaves, papplecheck, pleafcheck, pangle, pleaves, ptreetype2, progress, pleafmaterial, *pArgs)</dt><dd><tt>using&nbsp;the&nbsp;user&nbsp;inputs&nbsp;from&nbsp;createUI&nbsp;to&nbsp;set&nbsp;the&nbsp;variable&nbsp;that&nbsp;will&nbsp;define&nbsp;the&nbsp;characteristics&nbsp;of&nbsp;the&nbsp;tree<br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;plength&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;path&nbsp;name&nbsp;of&nbsp;the&nbsp;length&nbsp;control&nbsp;which&nbsp;through&nbsp;querying&nbsp;will&nbsp;be&nbsp;used&nbsp;to&nbsp;set&nbsp;the&nbsp;length&nbsp;of&nbsp;the&nbsp;cyclinders&nbsp;that&nbsp;make&nbsp;up&nbsp;the&nbsp;entire&nbsp;tree&nbsp;structure<br>
+piterations&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;path&nbsp;name&nbsp;of&nbsp;the&nbsp;iterations&nbsp;control&nbsp;which&nbsp;through&nbsp;querying&nbsp;will&nbsp;be&nbsp;used&nbsp;to&nbsp;set&nbsp;the&nbsp;number&nbsp;of&nbsp;iterations<br>
+ptreetype&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;path&nbsp;name&nbsp;of&nbsp;the&nbsp;treetype&nbsp;control&nbsp;which&nbsp;through&nbsp;querying&nbsp;will&nbsp;be&nbsp;used&nbsp;to&nbsp;set&nbsp;the&nbsp;axiom&nbsp;and&nbsp;rules&nbsp;for&nbsp;the&nbsp;various&nbsp;treetypes&nbsp;(1-4)<br>
+prgbs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;path&nbsp;name&nbsp;of&nbsp;the&nbsp;rgbs&nbsp;control&nbsp;which&nbsp;through&nbsp;querying&nbsp;will&nbsp;be&nbsp;used&nbsp;to&nbsp;set&nbsp;the&nbsp;colour&nbsp;of&nbsp;the&nbsp;trunk&nbsp;and&nbsp;branches<br>
+pleavesamount&nbsp;:&nbsp;the&nbsp;path&nbsp;name&nbsp;of&nbsp;the&nbsp;leavesamount&nbsp;control&nbsp;which&nbsp;through&nbsp;querying&nbsp;will&nbsp;be&nbsp;used&nbsp;to&nbsp;set&nbsp;the&nbsp;thickness&nbsp;of&nbsp;the&nbsp;leaves,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;by&nbsp;specifying&nbsp;the&nbsp;leaf&nbsp;rule&nbsp;(l&nbsp;rule)&nbsp;in&nbsp;the&nbsp;dictionary,&nbsp;e.g&nbsp;l&nbsp;=&nbsp;ll<br>
+prgbleaves&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;path&nbsp;name&nbsp;of&nbsp;the&nbsp;rgbleaves&nbsp;control&nbsp;which&nbsp;through&nbsp;querying&nbsp;will&nbsp;be&nbsp;used&nbsp;to&nbsp;set&nbsp;the&nbsp;rgb&nbsp;of&nbsp;the&nbsp;leaves<br>
+papplecheck&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;path&nbsp;name&nbsp;of&nbsp;the&nbsp;applecheck&nbsp;control&nbsp;which&nbsp;through&nbsp;querying&nbsp;will&nbsp;be&nbsp;used&nbsp;to&nbsp;enable&nbsp;or&nbsp;disable&nbsp;fruit/apples&nbsp;in&nbsp;the&nbsp;tree<br>
+pleafcheck&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;path&nbsp;name&nbsp;of&nbsp;the&nbsp;leafcheck&nbsp;control&nbsp;which&nbsp;through&nbsp;querying&nbsp;will&nbsp;be&nbsp;used&nbsp;to&nbsp;enable&nbsp;or&nbsp;disable&nbsp;leaves&nbsp;in&nbsp;the&nbsp;tree<br>
+pangle&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;path&nbsp;name&nbsp;of&nbsp;the&nbsp;angle&nbsp;control&nbsp;which&nbsp;through&nbsp;querying&nbsp;will&nbsp;be&nbsp;used&nbsp;to&nbsp;set&nbsp;the&nbsp;starting&nbsp;angle&nbsp;in&nbsp;which&nbsp;brnaches&nbsp;in&nbsp;the&nbsp;tree&nbsp;will&nbsp;be&nbsp;created<br>
+pleaves&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;path&nbsp;name&nbsp;of&nbsp;the&nbsp;leaves&nbsp;control&nbsp;which&nbsp;through&nbsp;querying&nbsp;will&nbsp;be&nbsp;used&nbsp;to&nbsp;set&nbsp;the&nbsp;type&nbsp;of&nbsp;leaves&nbsp;that&nbsp;will&nbsp;be&nbsp;generated&nbsp;(maple,&nbsp;standard)<br>
+ptreetype2&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;path&nbsp;name&nbsp;of&nbsp;the&nbsp;treetype2&nbsp;control&nbsp;which&nbsp;through&nbsp;querying&nbsp;will&nbsp;be&nbsp;used&nbsp;to&nbsp;set&nbsp;the&nbsp;axiom&nbsp;and&nbsp;rules&nbsp;for&nbsp;the&nbsp;5th&nbsp;6th&nbsp;and&nbsp;7th&nbsp;treetypes&nbsp;(5-7)<br>
+progress&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;the&nbsp;path&nbsp;name&nbsp;of&nbsp;the&nbsp;progress&nbsp;control&nbsp;which&nbsp;through&nbsp;querying&nbsp;will&nbsp;be&nbsp;used&nbsp;to&nbsp;increment&nbsp;or&nbsp;set&nbsp;the&nbsp;specific&nbsp;value&nbsp;of&nbsp;the&nbsp;progress&nbsp;bar</tt></dd></dl>
+ <dl><dt><a name="-treetype"><strong>treetype</strong></a>(cv, cv2)</dt><dd><tt>creates&nbsp;the&nbsp;axiom&nbsp;corresponding&nbsp;to&nbsp;the&nbsp;user&nbsp;selected&nbsp;axiom&nbsp;and&nbsp;adds&nbsp;the&nbsp;rules&nbsp;of&nbsp;that&nbsp;axiom&nbsp;'<br>
+cv&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;holds&nbsp;the&nbsp;value&nbsp;of&nbsp;the&nbsp;treetype&nbsp;control<br>
+cv2&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;holds&nbsp;the&nbsp;value&nbsp;of&nbsp;the&nbsp;treetype2&nbsp;control<br>
+return&nbsp;:&nbsp;the&nbsp;created&nbsp;axiom&nbsp;and&nbsp;the&nbsp;ruledictionary</tt></dd></dl>
+</td></tr></table>
+</body></html>
